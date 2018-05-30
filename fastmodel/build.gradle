@@ -1,0 +1,31 @@
+apply plugin: 'java'
+
+task copyTestResources(type: Copy) {
+    from "${projectDir}/src/test/resources"
+    into "${buildDir}/classes/test"
+}
+processTestResources.dependsOn copyTestResources
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    // 用于生成Java文件的库
+    compile 'com.squareup:javapoet:1.8.0'
+    compile 'com.google.auto.service:auto-service:1.0-rc3'
+    compile 'com.google.android:android:4.1.1.4'
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+jar {
+    manifest {
+        attributes(
+            "Manifest-Version": 1.0,
+            "Main-Class": "com.testbird.rio.Main")
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    into('assets') {
+        from 'assets'
+    }
+}
