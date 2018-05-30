@@ -1,4 +1,6 @@
 apply plugin: 'java'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.aizuzi'
 
 task copyTestResources(type: Copy) {
     from "${projectDir}/src/test/resources"
