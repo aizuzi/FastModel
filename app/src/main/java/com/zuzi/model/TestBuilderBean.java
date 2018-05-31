@@ -30,4 +30,11 @@ public class TestBuilderBean {
   String gasgtg;
   String grwg;
   RecyclerView gwreh;
+
+  @FastModelWithBuilder
+  static final class TestInnerClass{
+  String feg;
+  String gwegg;
+
+  }
 }

@@ -54,8 +54,7 @@ public final class GeneratedBuilderClass {
     lClassBuilder.addMethod(buildToStringMethod());
 
     //构造Builder内部类
-    final TypeSpec.Builder lClassBuilderBuilder = TypeSpec.classBuilder(
-        lClassName.replace("Model_" + mClassElement.getSimpleName().toString(), "Builder"))
+    final TypeSpec.Builder lClassBuilderBuilder = TypeSpec.classBuilder("Builder")
         .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL);
 
     //构造方法
