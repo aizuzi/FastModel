@@ -2,6 +2,7 @@ package com.zuzi.fastmodel.complier;
 
 import com.google.auto.service.AutoService;
 import com.zuzi.fastmodel.FastModel;
+import com.zuzi.fastmodel.FastModelWithBuilder;
 import java.util.HashSet;
 import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
@@ -38,6 +39,7 @@ public class FastModelProcessor extends AbstractProcessor {
   public Set<String> getSupportedAnnotationTypes() {
     final Set<String> lAnnotations = new HashSet<>();
     lAnnotations.add(FastModel.class.getCanonicalName());
+    lAnnotations.add(FastModelWithBuilder.class.getCanonicalName());
     return lAnnotations;
   }
 

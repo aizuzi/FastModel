@@ -20,14 +20,17 @@ public final class AnnotatedClass {
   private final TypeElement mEnclosingClass;
   private final List<AnnotatedField> mFields;
   private final List<ExecutableElement> mMethods;
+  private final boolean mIsBuilder;
 
-  public AnnotatedClass(final TypeElement pEnclosingClass) {
-    this(pEnclosingClass, new ArrayList<ExecutableElement>());
+  public AnnotatedClass(final TypeElement pEnclosingClass, boolean mIsBuilder) {
+    this(pEnclosingClass, new ArrayList<ExecutableElement>(), mIsBuilder);
   }
 
-  public AnnotatedClass(final TypeElement pEnclosingClass, final List<ExecutableElement> pMethods) {
+  public AnnotatedClass(final TypeElement pEnclosingClass, final List<ExecutableElement> pMethods,
+      boolean mIsBuilder) {
     mEnclosingClass = pEnclosingClass;
     mMethods = pMethods;
+    this.mIsBuilder = mIsBuilder;
     mFields = new ArrayList<>();
   }
 
@@ -44,11 +47,18 @@ public final class AnnotatedClass {
   }
 
   public void writeInto(final Filer pFiler, final Messager pMessager, final String lPackageName) {
-    final GeneratedClass lGeneratedClass =
-        new GeneratedClass(mEnclosingClass, lPackageName, mMethods, mFields);
+    //final GeneratedClass lGeneratedClass =
+    //    new GeneratedClass(mEnclosingClass, lPackageName, mMethods, mFields);
 
-    final TypeSpec lTypeSpecGeneratedClass = lGeneratedClass.buildFieldTypeSpec();
-    //final String lPackageName = lGeneratedClass.packageName();
+    TypeSpec lTypeSpecGeneratedClass = null;
+
+    if (mIsBuilder) {
+      lTypeSpecGeneratedClass =
+          new GeneratedBuilderClass(mEnclosingClass, lPackageName, mMethods, mFields).buildFieldTypeSpec();
+    } else {
+      lTypeSpecGeneratedClass =
+          new GeneratedClass(mEnclosingClass, lPackageName, mMethods, mFields).buildFieldTypeSpec();
+    }
 
     // create generated class to a file
     try {

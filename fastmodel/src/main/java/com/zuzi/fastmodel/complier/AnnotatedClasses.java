@@ -15,23 +15,23 @@ public final class AnnotatedClasses extends ArrayList<AnnotatedClass> {
 
   //region Visible API
   public void appendMethodToClass(final TypeElement pClass, final ExecutableElement pMethod) {
-    annotatedClassForClass(pClass).addMethod(pMethod);
+    //annotatedClassForClass(pClass).addMethod(pMethod);
   }
 
   public void appendFieldToClass(final TypeElement pClass, final TypeMirror type, final String name,
-      final Element item) {
+      final Element item,final boolean isBuilder) {
     AnnotatedField annotatedField = new AnnotatedField();
     annotatedField.setName(name);
     annotatedField.setType(type);
     annotatedField.setmIsStaticField(item.getModifiers().contains(
         Modifier.STATIC));
     annotatedField.setAnnotationMirrors(item.getAnnotationMirrors());
-    annotatedClassForClass(pClass).addField(annotatedField);
+    annotatedClassForClass(pClass,isBuilder).addField(annotatedField);
   }
   //endregion
 
   //region Specific job
-  private AnnotatedClass annotatedClassForClass(final TypeElement pClass) {
+  private AnnotatedClass annotatedClassForClass(final TypeElement pClass,final boolean isBuilder) {
     // get existing one
     for (final AnnotatedClass lAnnotatedClass : this) {
       if (lAnnotatedClass.enclosingClass() == pClass) {
@@ -39,7 +39,7 @@ public final class AnnotatedClasses extends ArrayList<AnnotatedClass> {
       }
     }
     // or create a new one if not exist
-    final AnnotatedClass lAnnotatedClass = new AnnotatedClass(pClass);
+    final AnnotatedClass lAnnotatedClass = new AnnotatedClass(pClass,isBuilder);
     add(lAnnotatedClass);
     return lAnnotatedClass;
   }

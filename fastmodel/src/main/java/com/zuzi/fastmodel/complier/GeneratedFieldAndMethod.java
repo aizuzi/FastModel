@@ -3,6 +3,7 @@ package com.zuzi.fastmodel.complier;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Modifier;
@@ -77,6 +78,22 @@ public final class GeneratedFieldAndMethod {
 
     lBuilder.addParameter(TypeName.get(mAnnotatedField.type), mAnnotatedField.name);
     lBuilder.addCode("this." + mAnnotatedField.name + " = " + mAnnotatedField.name + " ;\n");
+
+    return lBuilder.build();
+  }
+
+  public MethodSpec buildBuilderSetMethod(TypeName resultName) {
+
+    String methoName =
+        upperCase(mAnnotatedField.name);
+    final MethodSpec.Builder lBuilder =
+        MethodSpec.methodBuilder("set" + methoName)
+            .addModifiers(Modifier.PUBLIC);
+
+    lBuilder.addParameter(TypeName.get(mAnnotatedField.type), mAnnotatedField.name);
+    lBuilder.addCode("this." + mAnnotatedField.name + " = " + mAnnotatedField.name + " ;\n");
+    lBuilder.addCode("return this;\n");
+    lBuilder.returns(resultName);
 
     return lBuilder.build();
   }

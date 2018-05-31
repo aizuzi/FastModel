@@ -51,4 +51,5 @@ public class AnnotatedField {
       List<? extends AnnotationMirror> annotationMirrors) {
     this.annotationMirrors = annotationMirrors;
   }
+
 }
